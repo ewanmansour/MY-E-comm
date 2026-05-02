@@ -1,0 +1,31 @@
+# Dependencies
+node_modules/
+**/node_modules/
+
+# Environment variables (NEVER upload these!)
+.env
+**/.env
+.env.local
+.env.production
+
+# Build outputs
+dist/
+build/
+**/dist/
+**/build/
+
+# Uploaded images (user-generated content)
+frontend/public/uploads/*
+!frontend/public/uploads/.gitkeep
+
+# Logs
+*.log
+npm-debug.log*
+
+# OS files
+.DS_Store
+Thumbs.db
+
+# IDE
+.vscode/
+.idea/
