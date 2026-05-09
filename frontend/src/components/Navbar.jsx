@@ -17,18 +17,17 @@ const Navbar = () => {
     ];
 
     const navClass = ({ isActive }) =>
-        `px-4 py-2 text-xs font-semibold uppercase tracking-[0.14em] transition ${
-            isActive ? 'bg-[#2f2426] text-white shadow-sm' : 'text-[#56665f] hover:bg-white hover:text-[#2f2426]'
+        `px-4 py-2 text-xs font-semibold uppercase tracking-[0.14em] transition ${isActive ? 'bg-[#2f2426] text-white shadow-sm' : 'text-[#56665f] hover:bg-white hover:text-[#2f2426]'
         }`;
 
     return (
         <div className='sticky top-0 z-50 py-4 font-medium'>
             <div className='flex items-center justify-between border border-white/70 bg-[#fbfff9]/90 px-3 py-3 shadow-[0_18px_45px_rgba(85,45,53,0.10)] backdrop-blur md:px-4'>
-                <Link to='/' className='flex items-center gap-3' aria-label='Luma Beauty home'>
-                    <span className='grid h-10 w-10 place-items-center rounded-full bg-[#2f2426] text-sm font-semibold text-white'>LB</span>
+                <Link to='/' className='flex items-center gap-3' aria-label='Urban Thread home'>
+                    <span className='grid h-10 w-10 place-items-center rounded-full bg-[#2f2426] text-sm font-semibold text-white'>UT</span>
                     <span className='leading-none'>
-                        <span className='block text-lg font-semibold tracking-[0.18em] text-[#2f2426]'>LUMA</span>
-                        <span className='block text-[10px] font-semibold uppercase tracking-[0.32em] text-[#5f7f72]'>Beauty</span>
+                        <span className='block text-lg font-semibold tracking-[0.18em] text-[#2f2426]'>URBAN</span>
+                        <span className='block text-[10px] font-semibold uppercase tracking-[0.32em] text-[#5f7f72]'>Thread</span>
                     </span>
                 </Link>
 
@@ -95,8 +94,8 @@ const Navbar = () => {
                 <div className={`ml-auto h-full w-[86vw] max-w-sm bg-[#fbfff9] shadow-2xl transition-transform duration-300 ${visible ? 'translate-x-0' : 'translate-x-full'}`}>
                     <div className='flex items-center justify-between border-b border-[#dce8df] p-5'>
                         <div>
-                            <p className='text-lg font-semibold tracking-[0.18em] text-[#2f2426]'>LUMA</p>
-                            <p className='text-[10px] font-semibold uppercase tracking-[0.32em] text-[#5f7f72]'>Beauty</p>
+                            <p className='text-lg font-semibold tracking-[0.18em] text-[#2f2426]'>URBAN</p>
+                            <p className='text-[10px] font-semibold uppercase tracking-[0.32em] text-[#5f7f72]'>Thread</p>
                         </div>
                         <button onClick={() => setVisible(false)} className='grid h-9 w-9 place-items-center border border-[#dce8df] bg-white' type='button' aria-label='Close menu'>
                             <img className='h-3 rotate-180' src={assets.dropdown_icon} alt="" />

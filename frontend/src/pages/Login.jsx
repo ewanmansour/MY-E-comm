@@ -46,13 +46,13 @@ const Login = () => {
                 <div className='grid overflow-hidden border border-gray-200 bg-white soft-shadow lg:grid-cols-[0.9fr_1.1fr]'>
                     <div className='hidden bg-[#2f2426] p-10 text-white lg:flex lg:flex-col lg:justify-between'>
                         <div>
-                            <p className='mb-4 text-sm font-semibold uppercase tracking-[0.25em] text-[#b7d9ca]'>Luma Beauty account</p>
+                            <p className='mb-4 text-sm font-semibold uppercase tracking-[0.25em] text-[#b7d9ca]'>Urban Thread account</p>
                             <h1 className='prata-regular text-5xl leading-tight'>Save your orders and checkout faster.</h1>
                         </div>
                         <div className='grid gap-4 text-sm text-gray-200'>
                             <p>Track previous orders from your account.</p>
                             <p>Keep shopping details ready for checkout.</p>
-                            <p>Get better shade and routine recommendations from the AI assistant.</p>
+                            <p>Get better size and outfit recommendations from the AI assistant.</p>
                         </div>
                     </div>
 

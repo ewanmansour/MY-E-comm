@@ -37,16 +37,16 @@ const Contact = () => {
 
                 <div className='grid gap-10 lg:grid-cols-[1fr_1fr] lg:items-stretch'>
                     <div className='overflow-hidden border border-gray-200 bg-white'>
-                        <img src={assets.contact_img} alt='Beauty customer support' className='h-full min-h-[420px] w-full object-cover' />
+                        <img src={assets.contact_img} alt='Fashion customer support' className='h-full min-h-[420px] w-full object-cover' />
                     </div>
 
                     <div className='flex flex-col justify-center bg-white px-6 py-8 soft-shadow sm:px-10'>
                         <p className='mb-3 text-sm font-semibold uppercase tracking-[0.25em] text-[#5f7f72]'>We are here</p>
-                        <h1 className='prata-regular mb-6 text-4xl text-gray-950'>Need help with an order, shade, or routine?</h1>
+                        <h1 className='prata-regular mb-6 text-4xl text-gray-950'>Need help with an order, size, or outfit?</h1>
                         <div className='mb-8 grid gap-4 text-sm text-gray-600 sm:grid-cols-2'>
                             <div className='border border-gray-200 p-4'>
                                 <p className='mb-2 font-semibold text-gray-950'>Email</p>
-                                <p>support@lumabeauty.com</p>
+                                <p>support@urbanthread.com</p>
                             </div>
                             <div className='border border-gray-200 p-4'>
                                 <p className='mb-2 font-semibold text-gray-950'>Phone</p>
@@ -80,7 +80,7 @@ const Contact = () => {
                 <div className='my-16 border border-gray-200 bg-white p-6 text-sm leading-7 text-gray-600 sm:p-8'>
                     <p className='font-semibold text-gray-950'>Quick tip</p>
                     <p>
-                        You can also use the AI assistant in the bottom corner to ask about shades, categories, bestsellers, and product recommendations before contacting support.
+                        You can also use the AI assistant in the bottom corner to ask about sizes, categories, bestsellers, and product recommendations before contacting support.
                     </p>
                 </div>
             </ScrollReveal>

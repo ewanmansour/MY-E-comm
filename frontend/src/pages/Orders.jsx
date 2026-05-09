@@ -51,7 +51,7 @@ const Orders = () => {
                                         <div className='flex-1'>
                                             <p className='font-medium'>{item.name}</p>
                                             <p className='text-sm text-gray-500'>
-                                                {currency}{item.price} | Qty: {item.quantity} | Option: {item.size}
+                                                {currency}{item.price} | Qty: {item.quantity} | Size: {item.size}
                                             </p>
                                         </div>
                                     </div>

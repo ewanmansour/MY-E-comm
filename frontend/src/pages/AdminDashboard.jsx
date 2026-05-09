@@ -1,5 +1,4 @@
 import React, { useCallback, useContext, useEffect, useMemo, useState } from 'react';
-import { Navigate } from 'react-router-dom';
 import { toast } from 'react-toastify';
 import Title from '../components/Title';
 import { ShopContext } from '../context/ShopContextValue';
@@ -10,20 +9,19 @@ const emptyForm = {
   description: '',
   price: '',
   imageUrls: '',
-  category: 'Skincare',
-  subCategory: 'Serums',
-  sizes: '30ML,50ML',
+  category: 'Men',
+  subCategory: 'Topwear',
+  sizes: 'S,M,L',
   stock: 20,
   bestseller: false,
   active: true,
 };
 
-const categoryOptions = ['Makeup', 'Skincare'];
-const typeOptions = ['Serums', 'Lips', 'Face', 'SPF', 'Cleansers', 'Moisturizers'];
+const categoryOptions = ['Men', 'Women', 'Kids'];
+const typeOptions = ['Topwear', 'Bottomwear', 'Winterwear'];
 
 const AdminDashboard = () => {
   const { refreshProducts, productsError } = useContext(ShopContext);
-  const [entryAllowed] = useState(() => sessionStorage.getItem('adminEntryUnlocked') === 'true');
   const [form, setForm] = useState(emptyForm);
   const [credentials, setCredentials] = useState(() => {
     const saved = sessionStorage.getItem('adminCredentials');
@@ -137,7 +135,6 @@ const AdminDashboard = () => {
 
   const logout = () => {
     sessionStorage.removeItem('adminCredentials');
-    sessionStorage.removeItem('adminEntryUnlocked');
     setIsAuthenticated(false);
     setCredentials({ username: '', password: '' });
   };
@@ -182,17 +179,13 @@ const AdminDashboard = () => {
     }
   };
 
-  if (!entryAllowed) {
-    return <Navigate to='/' replace />;
-  }
-
   if (!isAuthenticated) {
     return (
       <div className='flex min-h-[70vh] items-center justify-center border-t py-12'>
         <form onSubmit={submitLogin} className='w-full max-w-md border border-gray-200 bg-white p-6 soft-shadow'>
           <div className='mb-6'>
             <Title text1='ADMIN' text2='LOGIN' />
-            <p className='mt-2 text-sm text-gray-600'>Enter the hidden dashboard credentials.</p>
+            <p className='mt-2 text-sm text-gray-600'>Enter the dashboard credentials.</p>
           </div>
 
           <div className='flex flex-col gap-4'>
@@ -232,7 +225,7 @@ const AdminDashboard = () => {
         <div>
           <Title text1='ADMIN' text2='DASHBOARD' />
           <p className='mt-2 max-w-2xl text-sm text-gray-600'>
-            Manage beauty products stored in PostgreSQL. Add new items, mark bestsellers, and remove old products.
+            Manage clothing products stored in PostgreSQL. Add new items, mark bestsellers, and remove old products.
           </p>
         </div>
         <div className='flex flex-col gap-3 sm:items-end'>
@@ -305,12 +298,12 @@ const AdminDashboard = () => {
                 />
               </label>
               <label className='text-sm'>
-                Options
+                Sizes
                 <input
                   value={form.sizes}
                   onChange={(event) => updateField('sizes', event.target.value)}
                   className='mt-1 w-full border px-3 py-2 outline-none focus:border-black'
-                  placeholder='30ML,50ML or Rose,Nude'
+                  placeholder='S,M,L'
                   required
                 />
               </label>
@@ -354,7 +347,7 @@ const AdminDashboard = () => {
                 value={form.imageUrls}
                 onChange={(event) => updateField('imageUrls', event.target.value)}
                 className='mt-1 w-full border px-3 py-2 outline-none focus:border-black'
-                placeholder='/products/beauty_01.png, https://...'
+                placeholder='/products/fashion_01.png, https://...'
                 required
               />
             </label>

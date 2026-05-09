@@ -4,6 +4,34 @@ import { toast } from 'react-toastify'
 import Title from '../components/Title'
 import { ShopContext } from '../context/ShopContextValue'
 
+const validators = {
+    firstName: (value) => value.trim() ? '' : 'First name is required.',
+    lastName: (value) => value.trim() ? '' : 'Last name is required.',
+    email: (value) => /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(value.trim()) ? '' : 'Enter a valid email address.',
+    street: (value) => value.trim().length >= 5 ? '' : 'Street address is required.',
+    city: (value) => value.trim() ? '' : 'City is required.',
+    state: (value) => value.trim() ? '' : 'State is required.',
+    zipcode: (value) => value.trim().length >= 3 ? '' : 'Zipcode is required.',
+    country: (value) => value.trim() ? '' : 'Country is required.',
+    phone: (value) => /^[0-9+\-\s()]{7,}$/.test(value.trim()) ? '' : 'Enter a valid phone number.',
+};
+
+const Field = ({ name, label, value, error, onChange, type = 'text', className = '' }) => (
+    <label className={`block w-full text-sm ${className}`}>
+        <span className='sr-only'>{label}</span>
+        <input
+            value={value}
+            onChange={(event) => onChange(name, event.target.value)}
+            className={`w-full border px-3 py-3 outline-none transition ${error ? 'border-red-300 bg-red-50' : 'border-[#dce8df] bg-white focus:border-[#5f7f72]'}`}
+            type={type}
+            placeholder={label}
+            aria-invalid={Boolean(error)}
+            aria-describedby={error ? `${name}-error` : undefined}
+        />
+        {error && <span id={`${name}-error`} className='mt-1 block text-xs text-red-600'>{error}</span>}
+    </label>
+);
+
 const PlaceOrder = () => {
     const { currency, delivery_fee, getCartAmount, placeOrder, user } = useContext(ShopContext);
     const navigate = useNavigate();
@@ -20,9 +48,19 @@ const PlaceOrder = () => {
         country: '',
         phone: '',
     });
+    const [errors, setErrors] = useState({});
 
     const updateField = (field, value) => {
         setForm((current) => ({ ...current, [field]: value }));
+        setErrors((current) => ({ ...current, [field]: validators[field]?.(value) || '' }));
+    };
+
+    const validateForm = () => {
+        const nextErrors = Object.fromEntries(
+            Object.entries(validators).map(([field, validate]) => [field, validate(form[field] || '')])
+        );
+        setErrors(nextErrors);
+        return Object.values(nextErrors).every((error) => !error);
     };
 
     const submitOrder = async (event) => {
@@ -36,6 +74,11 @@ const PlaceOrder = () => {
 
         if (getCartAmount() === 0) {
             navigate('/cart');
+            return;
+        }
+
+        if (!validateForm()) {
+            toast.info('Please fix the delivery information.');
             return;
         }
 
@@ -62,20 +105,20 @@ const PlaceOrder = () => {
                     <Title text1='DELIVERY' text2='INFORMATION' />
                 </div>
                 <div className='flex gap-3'>
-                    <input required onChange={(event) => updateField('firstName', event.target.value)} className='w-full border border-gray-300 px-3 py-2' type='text' placeholder='First name' />
-                    <input required onChange={(event) => updateField('lastName', event.target.value)} className='w-full border border-gray-300 px-3 py-2' type='text' placeholder='Last name' />
+                    <Field name='firstName' label='First name' value={form.firstName} error={errors.firstName} onChange={updateField} />
+                    <Field name='lastName' label='Last name' value={form.lastName} error={errors.lastName} onChange={updateField} />
                 </div>
-                <input required onChange={(event) => updateField('email', event.target.value)} className='w-full border border-gray-300 px-3 py-2' type='email' placeholder='Email address' />
-                <input required onChange={(event) => updateField('street', event.target.value)} className='w-full border border-gray-300 px-3 py-2' type='text' placeholder='Street' />
+                <Field name='email' label='Email address' value={form.email} error={errors.email} onChange={updateField} type='email' />
+                <Field name='street' label='Street' value={form.street} error={errors.street} onChange={updateField} />
                 <div className='flex gap-3'>
-                    <input required onChange={(event) => updateField('city', event.target.value)} className='w-full border border-gray-300 px-3 py-2' type='text' placeholder='City' />
-                    <input required onChange={(event) => updateField('state', event.target.value)} className='w-full border border-gray-300 px-3 py-2' type='text' placeholder='State' />
+                    <Field name='city' label='City' value={form.city} error={errors.city} onChange={updateField} />
+                    <Field name='state' label='State' value={form.state} error={errors.state} onChange={updateField} />
                 </div>
                 <div className='flex gap-3'>
-                    <input required onChange={(event) => updateField('zipcode', event.target.value)} className='w-full border border-gray-300 px-3 py-2' type='text' placeholder='Zipcode' />
-                    <input required onChange={(event) => updateField('country', event.target.value)} className='w-full border border-gray-300 px-3 py-2' type='text' placeholder='Country' />
+                    <Field name='zipcode' label='Zipcode' value={form.zipcode} error={errors.zipcode} onChange={updateField} />
+                    <Field name='country' label='Country' value={form.country} error={errors.country} onChange={updateField} />
                 </div>
-                <input required onChange={(event) => updateField('phone', event.target.value)} className='w-full border border-gray-300 px-3 py-2' type='text' placeholder='Phone' />
+                <Field name='phone' label='Phone' value={form.phone} error={errors.phone} onChange={updateField} />
             </div>
 
             <div className='mt-8 min-w-80'>
@@ -107,7 +150,7 @@ const PlaceOrder = () => {
                                 key={item}
                                 type='button'
                                 onClick={() => setMethod(item)}
-                                className={`border px-4 py-3 text-sm ${method === item ? 'border-black bg-gray-100' : 'border-gray-300'}`}
+                                className={`border px-4 py-3 text-sm ${method === item ? 'border-[#2f2426] bg-[#e8f0eb]' : 'border-[#dce8df] bg-white'}`}
                             >
                                 {item}
                             </button>

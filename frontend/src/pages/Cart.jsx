@@ -3,6 +3,7 @@ import { Link } from 'react-router-dom'
 import Title from '../components/Title'
 import { ShopContext } from '../context/ShopContextValue'
 import { assets } from '../assets/assets'
+import EmptyState from '../components/EmptyState'
 
 const Cart = () => {
     const { products, currency, cartItems, updateQuantity, getCartAmount, delivery_fee } = useContext(ShopContext);
@@ -28,6 +29,12 @@ const Cart = () => {
 
     const subtotal = getCartAmount();
     const total = subtotal === 0 ? 0 : subtotal + delivery_fee;
+    const removeItem = (item) => {
+        const confirmed = window.confirm(`Remove ${item.name} (${item.size}) from your cart?`);
+        if (confirmed) {
+            updateQuantity(item._id, item.size, 0);
+        }
+    };
 
     return (
         <div className='border-t pt-10'>
@@ -36,46 +43,51 @@ const Cart = () => {
             </div>
 
             {cartData.length === 0 ? (
-                <div className='py-16 text-center'>
-                    <p className='mb-5 text-gray-600'>Your cart is empty.</p>
-                    <Link to='/collection' className='inline-block bg-[#2f2426] px-8 py-3 text-sm text-white'>
-                        SHOP BEAUTY
-                    </Link>
-                </div>
+                <EmptyState
+                    title='Your cart is empty'
+                    message='Start with a new drop or bestseller and your selected sizes will show here.'
+                    actionText='Shop clothing'
+                    actionTo='/collection'
+                />
             ) : (
                 <>
-                    <div>
+                    <div className='grid gap-8 lg:grid-cols-[1fr_360px]'>
+                        <div>
                         {cartData.map((item) => (
-                            <div key={`${item._id}-${item.size}`} className='grid grid-cols-[4fr_1fr_0.5fr] items-center gap-4 border-b py-4 text-gray-700 sm:grid-cols-[4fr_2fr_0.5fr]'>
+                            <div key={`${item._id}-${item.size}`} className='grid grid-cols-[1fr_auto] items-center gap-4 border-b border-[#dce8df] bg-white/60 py-4 text-gray-700 sm:grid-cols-[1fr_150px_auto] sm:px-3'>
                                 <div className='flex items-start gap-6'>
-                                    <img className='w-16 sm:w-20' src={item.image[0]} alt={item.name} />
+                                    <img className='w-16 border border-[#dce8df] object-cover sm:w-20' src={item.image[0]} alt={item.name} />
                                     <div>
-                                        <p className='text-sm font-medium sm:text-lg'>{item.name}</p>
+                                        <Link to={`/product/${item._id}`} className='text-sm font-medium text-[#2f3430] hover:text-[#5f7f72] sm:text-lg'>{item.name}</Link>
                                         <div className='mt-2 flex items-center gap-5'>
                                             <p>{currency}{item.price}</p>
                                             <p className='border border-[#dce8df] bg-[#f7faf7] px-2 sm:px-3 sm:py-1'>{item.size}</p>
                                         </div>
                                     </div>
                                 </div>
-                                <input
-                                    onChange={(event) => updateQuantity(item._id, item.size, event.target.value)}
-                                    className='max-w-10 border px-1 py-1 sm:max-w-20 sm:px-2'
-                                    type='number'
-                                    min={1}
-                                    value={item.quantity}
-                                />
-                                <img
-                                    onClick={() => updateQuantity(item._id, item.size, 0)}
-                                    className='mr-4 w-4 cursor-pointer sm:w-5'
-                                    src={assets.bin_icon}
-                                    alt='Remove'
-                                />
+                                <div className='flex items-center border border-[#dce8df] bg-white'>
+                                    <button type='button' disabled={item.quantity <= 1} onClick={() => updateQuantity(item._id, item.size, item.quantity - 1)} className='h-9 w-9 text-lg text-[#2f3430] disabled:text-gray-300' aria-label={`Decrease ${item.name}`}>
+                                        -
+                                    </button>
+                                    <input
+                                        onChange={(event) => updateQuantity(item._id, item.size, event.target.value)}
+                                        className='h-9 w-10 border-x border-[#dce8df] text-center outline-none'
+                                        type='number'
+                                        min={1}
+                                        value={item.quantity}
+                                    />
+                                    <button type='button' onClick={() => updateQuantity(item._id, item.size, item.quantity + 1)} className='h-9 w-9 text-lg text-[#2f3430]' aria-label={`Increase ${item.name}`}>
+                                        +
+                                    </button>
+                                </div>
+                                <button type='button' onClick={() => removeItem(item)} className='grid h-9 w-9 place-items-center border border-[#dce8df] bg-white transition hover:border-red-200 hover:bg-red-50' aria-label={`Remove ${item.name}`}>
+                                    <img className='w-4' src={assets.bin_icon} alt='' />
+                                </button>
                             </div>
                         ))}
-                    </div>
+                        </div>
 
-                    <div className='my-20 flex justify-end'>
-                        <div className='w-full sm:w-[450px]'>
+                        <div className='h-fit border border-[#dce8df] bg-white p-5 shadow-sm lg:sticky lg:top-28'>
                             <div className='mb-4 text-2xl'>
                                 <Title text1='CART' text2='TOTALS' />
                             </div>
@@ -95,8 +107,8 @@ const Cart = () => {
                                     <b>{currency}{total}</b>
                                 </div>
                             </div>
-                            <div className='w-full text-end'>
-                                <Link to='/place-order' className='mt-8 inline-block bg-[#2f2426] px-8 py-3 text-sm text-white'>
+                            <div className='w-full'>
+                                <Link to='/place-order' className='mt-8 block bg-[#2f2426] px-8 py-3 text-center text-sm font-semibold uppercase tracking-[0.12em] text-white transition hover:bg-[#5f7f72]'>
                                     PROCEED TO CHECKOUT
                                 </Link>
                             </div>

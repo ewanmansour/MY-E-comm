@@ -13,6 +13,8 @@ const readStorage = (key, fallbackValue) => {
     }
 };
 
+const clothingCategories = new Set(['Men', 'Women', 'Kids']);
+
 const ShopContextProvider = (props) => {
 
     const currency = '$';
@@ -32,7 +34,8 @@ const ShopContextProvider = (props) => {
 
         try {
             const apiProducts = await fetchProducts();
-            setProducts(apiProducts);
+            const clothingProducts = apiProducts.filter((product) => clothingCategories.has(product.category));
+            setProducts(clothingProducts.length > 0 ? clothingProducts : fallbackProducts);
             setProductsError('');
         } catch (error) {
             setProducts(fallbackProducts);

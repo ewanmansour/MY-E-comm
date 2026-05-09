@@ -4,7 +4,7 @@ import { askAssistant } from '../lib/api';
 const initialMessages = [
   {
     role: 'assistant',
-    text: 'Hi, I can help you choose products, shades, routines, and gifts.',
+    text: 'Hi, I can help you choose products, sizes, outfits, and gifts.',
   },
 ];
 
